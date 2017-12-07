@@ -7,5 +7,15 @@
  * Class to manage the rules and functions of the game.
  */
 public class Yahtzee {
-
+	/**********************
+	 * INSTANCE VARIABLES *
+	 **********************/
+	
+	/****************
+	 * CONSTRUCTORS *
+	 ****************/
+	
+	/***********
+	 * METHODS *
+	 ***********/
 }
