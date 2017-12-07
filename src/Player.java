@@ -2,7 +2,6 @@
 public class Player {
 	public String name;
 	private int score;
-	private Hand dice;
 	public boolean[] scoreSheet;
 	
 	public Player(String n) {
@@ -16,10 +15,4 @@ public class Player {
 	public int getScore() {
 		return score;
 	}
-	
-	public Hand getHand() {
-		return dice;
-	}
-	
-	
 }
