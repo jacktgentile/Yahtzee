@@ -81,6 +81,6 @@ public class Dice {
 	 * @return array of dice values
 	 */
 	public int[] getGameDice() {
-		return this.gameDice;
+		return this.gameDice; 
 	}
 }
