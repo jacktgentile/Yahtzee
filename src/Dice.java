@@ -43,14 +43,12 @@ public class Dice {
 	/**
 	 * Sets which dice to roll and which dice too keep.
 	 * 
-	 * @param diceSel
-	 *            Array of which dice to roll
+	 * @param diceSel Array of which dice to roll 
+	 * 			(Game Class will force diceSel values to be from 1-5.)
 	 */
 	public void diceSelection(final int[] diceSel) {
+		Arrays.fill(diceRollSet, false);
 		for (int i = 0; i < diceSel.length; i++) {
-			Arrays.fill(diceRollSet, false);
-
-			// Game Class will force diceSel values to be from 1-5.
 			diceRollSet[diceSel[i] - 1] = true;
 		}
 	}
@@ -61,16 +59,28 @@ public class Dice {
 	public void rollDice() {
 		for (int i = 0; i < this.gameDice.length; i++) {
 			if (this.diceRollSet[i]) {
-				this.gameDice[i] = ((int)(6 * Math.random())) + 1;
+				this.gameDice[i] = ((int) (6 * Math.random())) + 1;
 			}
 		}
 	}
-	
+
 	/**
 	 * Prints the dice and number onto the screen.
+	 * 
 	 * @return Dice values in text picture format
 	 */
-	public String displayDice() {
-		return "";
+	public String toString() {
+		return "--- --- --- --- ---\n" + "|" + this.gameDice[0] + "| " + "|" + this.gameDice[1] + "| " + "|"
+				+ this.gameDice[2] + "| " + "|" + this.gameDice[3] + "| " + "|" + this.gameDice[4] + "|"
+				+ "\n--- --- --- --- ---";
+	}
+	
+	/**
+	 * Return the values on the set of dice.
+	 * 
+	 * @return array of dice values
+	 */
+	public int[] getGameDice() {
+		return this.gameDice;
 	}
 }
