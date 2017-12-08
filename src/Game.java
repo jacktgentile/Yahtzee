@@ -12,15 +12,15 @@ public class Game {
 	/**********************
 	 * INSTANCE VARIABLES *
 	 **********************/
-	
+
 	/****************
 	 * CONSTRUCTORS *
 	 ****************/
-	
+
 	/***********
 	 * METHODS *
 	 ***********/
-	
+
 	/**
 	 * Run method of the game.
 	 * 
@@ -31,6 +31,15 @@ public class Game {
 		System.out.println("---------------------");
 		System.out.println(" Welcome to Yahtzee!\n Rules : https://www.hasbro.com/common/instruct/Yahtzee.pdf");
 		System.out.println("---------------------");
+		
+		Dice gameDice = new Dice();
+		gameDice.rollDice();
+		System.out.println("\ntesting dice roll \n"+gameDice.toString());
+		
+		int[] temp = {1,2,4};
+		gameDice.diceSelection(temp);
+		gameDice.rollDice();
+		System.out.println("\ntesting dice roll with selection \n"+gameDice.toString());
 		
 	}
 }
