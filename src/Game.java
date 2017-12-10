@@ -13,10 +13,6 @@ public class Game {
 	 * INSTANCE VARIABLES *
 	 **********************/
 
-	/****************
-	 * CONSTRUCTORS *
-	 ****************/
-
 	/***********
 	 * METHODS *
 	 ***********/
@@ -32,6 +28,7 @@ public class Game {
 		System.out.println(" Welcome to Yahtzee!\n Rules : https://www.hasbro.com/common/instruct/Yahtzee.pdf");
 		System.out.println("---------------------");
 		
+		// Test Area
 		Dice gameDice = new Dice();
 		gameDice.rollDice();
 		System.out.println("\ntesting dice roll \n"+gameDice.toString());
@@ -40,6 +37,9 @@ public class Game {
 		gameDice.diceSelection(temp);
 		gameDice.rollDice();
 		System.out.println("\ntesting dice roll with selection \n"+gameDice.toString());
+		
+		Yahtzee scoreCards = new Yahtzee();
+		System.out.println(scoreCards.toString());
 		
 	}
 }
