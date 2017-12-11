@@ -1,95 +1,191 @@
+import java.util.Arrays;
+
 /**
  * @author Vincent Hu, Jack Gentile
  *
  */
 
 /**
- * Class to manage the rules and functions of the game. Controls overall game flow.
+ * Class to manage the rules and functions of the game.
  */
 public class Yahtzee {
 	/**********************
 	 * INSTANCE VARIABLES *
 	 **********************/
-	
+
 	/**
-	 * True represents scoring methods used by each player.
+	 * Number assigned to cells that do not have a value set.
 	 */
-	boolean[][] possibleScores;
-	
+	private final int emptyCell = 888;
+
 	/**
-	 * Representations of the scoring categories to be displayed to the user.
+	 * Score board for the first player.
 	 */
-	final String[] categories = {
-			"A Ones-------------",
-			"B Twos-------------",
-			"C Threes-----------",
-			"D Fours------------",
-			"E Fives------------",
-			"F Sixes------------",
-			"G Three of a kind--",
-			"H Four of a kind---",
-			"I Full House-------",
-			"J Small Straight---",
-			"K Large Straight---",
-			"L Yahtzee----------",
-			"M Chance-----------"
-	};
-	
+	private int[] player1;
+
+	/**
+	 * Score board for the second player.
+	 */
+	private int[] player2;
+
 	/****************
 	 * CONSTRUCTORS *
 	 ****************/
-	
-	
+	/**
+	 * Initializes a set of arrays that represents the score board.
+	 */
 	public Yahtzee() {
-		possibleScores = new boolean[2][13];
-		
+		player1 = new int[16];
+		Arrays.fill(player1, this.emptyCell);
+		player2 = new int[16];
+		Arrays.fill(player2, this.emptyCell);
 	}
-	
+
 	/***********
 	 * METHODS *
 	 ***********/
 	
 	/**
-	 * Displays to the user possible scores that they could get using any category not already used.
-	 * @param gameDice array of dice values unsorted
+	 * Will set the score of the slot chosen by the player.
+	 * 
+	 * <p> The values for the parameter are indicated in the score board print.
+	 * Run the Game class to see the parameter and their matching score choice.
+	 * 
+	 * @param indicator Which slot the player chose to score. Indicator will be checked
+	 * for validity before calling this method.
+	 * @param gameDice From call to player's dice getGameDice after sorting.
 	 */
-	public void showScores(final int[] gameDice) {
-		int[] sortedDice = this.sortDice(gameDice);
-		
+	public void setScore(final int indicator, final Dice gameDice, final int playerNum) {
+		int[] p = player1;
+		if (playerNum == 2) {
+			p = player2;
+		}
+		int sum = 0;
+		if (indicator <= 6) {
+			sum = gameDice.sumOf(indicator);
+			p[indicator - 1] = sum;
+		}
+		switch (indicator) {
+		case 7:
+			//3 of a kind - add all die values
+			if ((p[0] == p[1] && p[0] == p[2]) 
+					|| (p[1] == p[2] && p[1] == p[3]) 
+					|| (p[2] == p[3] && p[2] == p[4])) {
+				sum = gameDice.sumOf(0);
+			}
+			p[6] = sum;
+			return;
+		case 8:
+			//4 of a kind - add all die values
+			if ((p[0] == p[1] && p[0] == p[2] && p[0] == p[3]) 
+					|| (p[4] == p[1] && p[4] == p[2] && p[4] == p[3])) {
+				sum = gameDice.sumOf(0);
+			}
+			p[7] = sum;
+			return;
+		case 9:
+			//full house - 25
+			if (p[0] == p[1] && p[3] == p[4]) {
+				if (p[0] == p[2] || p[4] == p[2]) {
+					sum = 25;
+				}
+			}
+			p[8] = sum;
+			return;
+		case 10:
+			//small straight of 4 - 30
+			if (p[1] + 1 == p[2] && p[2] + 1 == p[3]) {
+				if (p[0] + 1 == p[1] || p[3] + 1 == p[4]) {
+					sum = 30;
+				}
+			}
+			p[9] = sum;
+			return;
+		case 11:
+			boolean flag = true;
+			int[] diceArr = gameDice.getGameDice();
+			for (int i = 0; i < diceArr.length - 1; i++) {
+				if (diceArr[i] + 1 != diceArr[i + 1]) {
+					flag = false;
+				}
+			}
+			if (flag) {
+				sum = 40;
+			}
+			p[10] = sum;
+			return;
+		case 12:
+			p[11] = gameDice.sumOf(0);
+			return;
+		}
+	}
+
+	/**
+	 * determine whether an indicator value is valid for a given player.
+	 * must be in the range [1,13] and (except for 13) value in player array must be emptyCell.
+	 * @param indicator
+	 * @param playerNum
+	 * @return true if value is valid
+	 */
+	public boolean isValidChoice(final int indicator, final int playerNum) {
+		if (indicator < 1 || indicator > 13) {
+			return false;
+		}
+		int[] p = player1;
+		if (playerNum == 2) {
+			p = player2;
+		}
+		if (p[indicator-1] == emptyCell) {
+			return true;
+		}
+		//special case for yahtzee with bonus points
+		if (indicator == 13) {
+			if (p[12] == 50) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
-	 * Helper method to sort dice, making it easier to score.
-	 * 
-	 * @param gameDice Unsorted array of die values
-	 * @return Sorted deep copy of the array
+	 * Displays the scoreCards of the two players
 	 */
-	private int[] sortDice(final int[] gameDice) {
-		int[] result = new int[gameDice.length];
-		for (int i = 0; i < gameDice.length; i++) {
-			result[i] = gameDice[i];
-		}
-		for (int j = 0; j < result.length - 1; j++) {
-			int mindex = j;
-			for (int k = j + 1; k < result.length; k++) {
-				if (result[k] < result[mindex]) {
-					mindex = k;
+	public String toString() {
+		String horzDivider = "|---------------------|--------|--------|";
+		String output = horzDivider + "\n|                     |Player 1|Player 2|\n" + horzDivider + "\n";
+		String[] board = { "|(1)  Ones            |   ", "|(2)  Twos            |   ", "|(3)  Threes          |   ",
+				"|(4)  Fours           |   ", "|(5)  Fives           |   ", "|(6)  Sixes           |   ",
+				"|     Sum             |   ", "|     Bonus           |   ", "|(7)  Three of a Kind |   ",
+				"|(8)  Four of a Kind  |   ", "|(9)  Full House      |   ", "|(10) Small Straight  |   ",
+				"|(11) Large Straight  |   ", "|(12) Chance          |   ", "|(13) Yahtzee         |   ",
+				"|     Total           |   " };
+		//upper half of the score sheet display loop
+		for (int i = 0; i < 6; i++) {
+			String scoreP1 = "";
+			String scoreP2 = "";
+			if(player1[i] == this.emptyCell) {
+				scoreP1 = "     |   ";
+			} else {
+				if(player1[i] / 10 == 0) {
+					scoreP1 = player1[i] + "    |   ";
+				} else {
+					scoreP1 = player1[i] + "   |   ";
 				}
 			}
-			int temp = result[j];
-			result[j] = result[mindex];
-			result[mindex] = temp;
+			
+			if(player2[i] == this.emptyCell) {
+				scoreP2 = "     |";
+			} else {
+				if(player2[i] / 10 == 0) {
+					scoreP2 = player2[i] + "    |";
+				} else {
+					scoreP2 = player2[i] + "   |";
+				}
+			}
+			output += board[i] + scoreP1 + scoreP2 + "\n" + horzDivider + "\n";
 		}
-		return result;
+		// middle section of the display loop
+		output += board[6] + 
+		return output;
 	}
 }
-
-
-
-
-
-
-
-
-
-

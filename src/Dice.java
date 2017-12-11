@@ -12,7 +12,7 @@ public class Dice {
 	/**********************
 	 * INSTANCE VARIABLES *
 	 **********************/
-
+	
 	/**
 	 * Array of integers that represents the 5 dice from the game.
 	 */
@@ -28,7 +28,7 @@ public class Dice {
 	 ****************/
 
 	/**
-	 * Initializes a set of
+	 * Initializes a set of arrays that represent dice.
 	 */
 	public Dice() {
 		gameDice = new int[5];
@@ -43,8 +43,9 @@ public class Dice {
 	/**
 	 * Sets which dice to roll and which dice too keep.
 	 * 
-	 * @param diceSel Array of which dice to roll 
-	 * 			(Game Class will force diceSel values to be from 1-5.)
+	 * @param diceSel
+	 *            Array of which dice to roll (Game Class will force diceSel values
+	 *            to be from 1-5.)
 	 */
 	public void diceSelection(final int[] diceSel) {
 		Arrays.fill(diceRollSet, false);
@@ -70,17 +71,43 @@ public class Dice {
 	 * @return Dice values in text picture format
 	 */
 	public String toString() {
-		return "--- --- --- --- ---\n" + "|" + this.gameDice[0] + "| " + "|" + this.gameDice[1] + "| " + "|"
-				+ this.gameDice[2] + "| " + "|" + this.gameDice[3] + "| " + "|" + this.gameDice[4] + "|"
-				+ "\n--- --- --- --- ---";
+		return "(1) (2) (3) (4) (5) \n" + "--- --- --- --- ---\n" + "|" + this.gameDice[0] + "| " + "|"
+				+ this.gameDice[1] + "| " + "|" + this.gameDice[2] + "| " + "|" + this.gameDice[3] + "| " + "|"
+				+ this.gameDice[4] + "|" + "\n--- --- --- --- ---";
 	}
-	
+
 	/**
 	 * Return the values on the set of dice.
 	 * 
 	 * @return array of dice values
 	 */
 	public int[] getGameDice() {
-		return this.gameDice; 
+		return this.gameDice;
+	}
+	
+	/**
+	 * Sorts the gameDice.
+	 */
+	public void sortGameDice() {
+		Arrays.sort(gameDice);
+	}
+	
+	/**
+	 * Adds all of the dice with the indicated value.
+	 * If zero is the indicator then the method will add all dice regardless of it's value.
+	 * 
+	 * @param indicator Assigns the number to be added
+	 * @return The sum of the indicated value.
+	 */
+	public int sumOf(final int indicator) {
+		int sum = 0;
+		for (int val : this.gameDice) {
+			if (indicator == 0) {
+				sum += val;
+			} else if (val == indicator) {
+				sum += val;
+			}
+		}
+		return sum;
 	}
 }
