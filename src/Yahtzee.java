@@ -44,6 +44,18 @@ public class Yahtzee {
 	/***********
 	 * METHODS *
 	 ***********/
+	
+	/**
+	 * Will set the score of the slot chosen by the player.
+	 * 
+	 * <p> The values for the parameter are indicated in the score board print.
+	 * Run the Game class to see the parameter and their matching score choice.
+	 * 
+	 * @param indicator Which slot the player chose to score.
+	 */
+	public void setScore(final int indicator) {
+		
+	}
 
 	/**
 	 * Displays the scoreCards of the two players
@@ -56,14 +68,31 @@ public class Yahtzee {
 				"|     Sum             |   ", "|     Bonus           |   ", "|(7)  Three of a Kind |   ",
 				"|(8)  Four of a Kind  |   ", "|(9)  Full House      |   ", "|(10) Small Straight  |   ",
 				"|(11) Large Straight  |   ", "|(12) Chance          |   ", "|(13) Yahtzee         |   ",
-				"|     Total           |  " };
+				"|     Total           |   " };
 		for (int i = 0; i < board.length; i++) {
 			String scoreP1 = "";
 			String scoreP2 = "";
-			output += board[i] + "\n" + horzDivider + "\n";
-
+			if(player1[i] == this.emptyCell) {
+				scoreP1 = "     |";
+			} else {
+				if(player1[i] / 10 == 0) {
+					scoreP1 = player1[i] + "    |   ";
+				} else {
+					scoreP1 = player1[i] + "   |   ";
+				}
+			}
+			
+			if(player2[i] == this.emptyCell) {
+				scoreP2 = "        |";
+			} else {
+				if(player2[i] / 10 == 0) {
+					scoreP2 = player2[i] + "    |";
+				} else {
+					scoreP2 = player2[i] + "   |";
+				}
+			}
+			output += board[i] + scoreP1 + scoreP2 + "\n" + horzDivider + "\n";
 		}
-
 		return output;
 	}
 }

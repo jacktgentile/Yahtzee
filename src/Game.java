@@ -1,4 +1,4 @@
-//import java.util.Scanner;
+import java.util.Scanner;
 
 /**
  * @author Vincent Hu, Jack Gentile
@@ -12,10 +12,14 @@ public class Game {
 	/**********************
 	 * INSTANCE VARIABLES *
 	 **********************/
+	Scanner keyIn = new Scanner(System.in);
 
 	/***********
 	 * METHODS *
 	 ***********/
+	public void playerRollSeqeunce() {
+		//todo Ask players for whether they wish to roll after the automatic first roll.
+	}
 
 	/**
 	 * Run method of the game.
@@ -28,8 +32,11 @@ public class Game {
 		System.out.println(" Welcome to Yahtzee!\n Rules : https://www.hasbro.com/common/instruct/Yahtzee.pdf");
 		System.out.println("---------------------");
 		
-		// Test Area
 		Dice gameDice = new Dice();
+		Yahtzee scoreCards = new Yahtzee();
+		
+		// Test Area
+		
 		gameDice.rollDice();
 		System.out.println("\ntesting dice roll \n"+gameDice.toString());
 		
@@ -37,8 +44,7 @@ public class Game {
 		gameDice.diceSelection(temp);
 		gameDice.rollDice();
 		System.out.println("\ntesting dice roll with selection \n"+gameDice.toString());
-		
-		Yahtzee scoreCards = new Yahtzee();
+
 		System.out.println(scoreCards.toString());
 		
 	}

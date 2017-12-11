@@ -84,4 +84,30 @@ public class Dice {
 	public int[] getGameDice() {
 		return this.gameDice;
 	}
+	
+	/**
+	 * Sorts the gameDice.
+	 */
+	public void sortGameDice() {
+		Arrays.sort(gameDice);
+	}
+	
+	/**
+	 * Adds all of the dice with the indicated value.
+	 * If zero is the indicator then the method will add all dice regardless of it's value.
+	 * 
+	 * @param indicator Assigns the number to be added
+	 * @return The sum of the indicated value.
+	 */
+	public int sumOf(final int indicator) {
+		int sum = 0;
+		for (int val : this.gameDice) {
+			if (indicator == 0) {
+				sum += val;
+			} else if (val == indicator) {
+				sum += val;
+			}
+		}
+		return sum;
+	}
 }
