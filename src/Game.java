@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -39,20 +40,39 @@ public class Game {
 		
 		// Test Area
 		
-		gameDice.rollDice();
-		System.out.println("\ntesting dice roll \n"+gameDice.toString());
+//		gameDice.rollDice();
+//		System.out.println("\ntesting dice roll \n"+gameDice.toString());
 		
-		int[] temp = {1,2,4};
-		gameDice.diceSelection(temp);
-		gameDice.rollDice();
-		System.out.println("\ntesting dice roll with selection \n"+gameDice.toString());
-		
-		int moveChoice = keyIn.nextInt();
-		if (scoreCards.isValidChoice(moveChoice, 1)) {
-			scoreCards.setScore(moveChoice, gameDice, 1);
+		for (int round = 0; round < 26; round++) {
+			System.out.println("Round " + (round / 2 + 1) + ":\nPlayer " + (round % 2 + 1));
+			gameDice.rollDice();
+			//reroll loop
+			for (int i = 0; i < 2; i++) {
+				System.out.println(gameDice.toString() + "\nWrite the number for each die "
+						+ "you wish to reroll, 0 to roll.");
+				int val = 7;
+				boolean[] rollSet = new boolean[5];
+				Arrays.fill(rollSet, false);
+				while (val != 0) {
+					val = keyIn.nextInt();
+					if (val > 0 && val < 6) {
+						rollSet[val - 1] = true;
+					}
+				}
+				gameDice.rollDice(rollSet);
+			}
+			System.out.println(scoreCards.toString() + "\n" + gameDice.toString());
+			int val = 0;
+			while (!scoreCards.isValidChoice(val, round % 2 + 1)) {
+				val = keyIn.nextInt();
+			}
+			gameDice.sortGameDice();
+			scoreCards.setScore(val, gameDice, round % 2 + 1);
+			System.out.println(scoreCards.toString() + "\n");
 		}
 
 		System.out.println(scoreCards.toString());
 		
+		keyIn.close();
 	}
 }

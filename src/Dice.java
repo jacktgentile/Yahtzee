@@ -21,7 +21,7 @@ public class Dice {
 	/**
 	 * Array of booleans that represent which dice the player wants to roll.
 	 */
-	private boolean[] diceRollSet;
+//	private boolean[] diceRollSet;
 
 	/****************
 	 * CONSTRUCTORS *
@@ -32,8 +32,8 @@ public class Dice {
 	 */
 	public Dice() {
 		gameDice = new int[5];
-		diceRollSet = new boolean[5];
-		Arrays.fill(diceRollSet, true);
+//		diceRollSet = new boolean[5];
+//		Arrays.fill(diceRollSet, true);
 	}
 
 	/***********
@@ -47,21 +47,28 @@ public class Dice {
 	 *            Array of which dice to roll (Game Class will force diceSel values
 	 *            to be from 1-5.)
 	 */
-	public void diceSelection(final int[] diceSel) {
-		Arrays.fill(diceRollSet, false);
-		for (int i = 0; i < diceSel.length; i++) {
-			diceRollSet[diceSel[i] - 1] = true;
-		}
+	public void diceSelection(final boolean[] diceSel) {
+//		Arrays.fill(diceRollSet, false);
+//		for (int i = 0; i < diceSel.length; i++) {
+//			diceRollSet[diceSel[i] - 1] = true;
+//		}
+		
 	}
 
 	/**
 	 * Will roll dice dictated by diceRollSet.
 	 */
-	public void rollDice() {
+	public void rollDice(final boolean[] diceRollSet) {
 		for (int i = 0; i < this.gameDice.length; i++) {
-			if (this.diceRollSet[i]) {
+			if (diceRollSet[i]) {
 				this.gameDice[i] = ((int) (6 * Math.random())) + 1;
 			}
+		}
+	}
+	
+	public void rollDice() {
+		for (int i = 0; i < gameDice.length; i++) {
+			gameDice[i] = ((int) (6 * Math.random())) + 1;
 		}
 	}
 
@@ -90,6 +97,16 @@ public class Dice {
 	 */
 	public void sortGameDice() {
 		Arrays.sort(gameDice);
+	}
+	
+	
+	public boolean contains(final int val) {
+		for (int i: gameDice) {
+			if (i == val) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
